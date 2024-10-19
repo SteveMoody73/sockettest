@@ -6,6 +6,7 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 
+#include <pugixml.hpp>
 
 #define MAX_DATA_SIZE   8192
 #define NETWORK_PORT    23450
@@ -68,8 +69,38 @@ int main(int argc, char **argv)
     else
     {
         printf("Received %d bytes from client\n", recSize);
-        // process the XML data, for now just print it
-        printf("%s\n", buffer);
+
+        pugi::xml_document doc;
+        pugi::xml_parse_result result = doc.load_string(buffer);
+        pugi::xml_node xml = doc.child("XML");
+
+		if (!xml)
+		{
+			printf("Data is not in XML format\n");
+		}
+        else
+        {
+            if (result.status != pugi::xml_parse_status::status_ok)
+            {
+                printf("Error loading XML data\n");
+            }
+            else
+            {
+                for (pugi::xml_node_iterator it = xml.begin(); it != xml.end(); ++it)
+                {
+                    std::string nodename = it->name();
+                    if (nodename.compare("Component") == 0)
+                    {
+                        printf("XML Node: %s ", it->name());
+                        for (pugi::xml_attribute_iterator ait = it->attributes_begin(); ait != it->attributes_end(); ++ait)
+                        {
+                            printf("%s,%s ", ait->name(), ait->value());
+                        }
+                        printf("\n");
+                    }
+                }
+            }
+        }
     }
     
     close(serverSocket);

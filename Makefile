@@ -1,5 +1,5 @@
 all:
-	gcc server.cpp -o server
+	g++ server.cpp -o server -lpugixml
 	gcc client.cpp -o client
 
 clean:

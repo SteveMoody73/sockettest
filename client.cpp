@@ -6,7 +6,6 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 
-
 #define MAX_DATA_SIZE   8192
 #define NETWORK_PORT    23450
 
