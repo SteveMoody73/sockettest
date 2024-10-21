@@ -7,9 +7,67 @@
 #include <arpa/inet.h>
 
 #include <pugixml.hpp>
+#include <algorithm>
+
 
 #define MAX_DATA_SIZE   8192
 #define NETWORK_PORT    23450
+
+// trim from start (in place)
+static inline void ltrim(std::string &s)
+{
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int ch)
+    {
+        return !std::isspace(ch);
+    }));
+}
+
+// trim from end (in place)
+static inline void rtrim(std::string &s)
+{
+    s.erase(std::find_if(s.rbegin(), s.rend(), [](int ch)
+    {
+        return !std::isspace(ch);
+    }).base(), s.end());
+}
+
+// trim from both ends (in place)
+static inline void trim(std::string &s)
+{
+    ltrim(s);
+    rtrim(s);
+}
+
+bool stringToFloat(const std::string &str, float *f)
+{
+    char *endPtr = nullptr;
+    std::string trimmed = str;
+    trim(trimmed);
+    float result = (float)std::strtod(trimmed.c_str(), &endPtr);
+    if (*endPtr != '\0')
+    {
+        printf("Error converting a string to a float \"%s\"", trimmed.c_str());
+        return false;
+    }
+
+    *f = result;
+    return true;
+}
+
+bool stringToLong(const std::string &str, long *l)
+{
+    char *endPtr = nullptr;
+    std::string trimmed = str;
+    trim(trimmed);
+    long result = std::strtol(trimmed.c_str(), &endPtr, 10);
+    if (*endPtr != '\0')
+    {
+        printf("Error converting a string to an integer \"%s\"", trimmed.c_str());
+        return false;
+    }
+    *l = result;
+    return true;
+}
 
 
 int main(int argc, char **argv)
@@ -89,14 +147,28 @@ int main(int argc, char **argv)
                 for (pugi::xml_node_iterator it = xml.begin(); it != xml.end(); ++it)
                 {
                     std::string nodename = it->name();
+                    std::string compname = it->attribute("name") == nullptr ? "Unknown" : it->attribute("name").value(); 
                     if (nodename.compare("Component") == 0)
                     {
-                        printf("XML Node: %s ", it->name());
-                        for (pugi::xml_attribute_iterator ait = it->attributes_begin(); ait != it->attributes_end(); ++ait)
+                        std::string nodetype = it->child("Type") == nullptr ? "Unknown" : it->child("Type").text().get();
+                        if (nodetype.compare("SolenoidValve") == 0)
                         {
-                            printf("%s,%s ", ait->name(), ait->value());
+                            std::string valvepos = it->child("ValvePos") == nullptr ? "0" : it->child("ValvePos").text().get();
+                            long pos = 0;
+                            stringToLong(valvepos, &pos);
+
+                            printf("Valve %s set to %d\n", compname.c_str(), (int)pos);
                         }
-                        printf("\n");
+                        else if (nodetype.compare("HeatedZone") == 0)
+                        {
+                            std::string targettemp = it->child("TargetTemp") == nullptr ? "0" : it->child("TargetTemp").text().get();
+                            std::string heateron = it->child("TargetTemp") == nullptr ? "0" : it->child("TargetTemp").text().get();
+                            float temp = 0.0f; long onoff = 0;
+                            stringToFloat(targettemp, &temp);
+                            stringToLong(heateron, &onoff);
+
+                            printf("Heater %s set to  %3.2f (%s)\n", compname.c_str(), temp, onoff == 0 ? "off" : "on");
+                        }
                     }
                 }
             }

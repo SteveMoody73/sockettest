@@ -1,8 +1,22 @@
 <XML>
-	<Component name="SolenoidValve1"><Type ro="1" sid="SV">SolenoidValve</Type><ValvePos sid="A" fwc="AV">0</ValvePos></Component>
+	<Component name="SolenoidValve1">
+		<Type ro="1" sid="SV">SolenoidValve</Type>
+		<ValvePos sid="A" fwc="AV">0</ValvePos>
+	</Component>
 	<Component name="SolenoidValve2"><Type ro="1" sid="SV">SolenoidValve</Type><ValvePos sid="A" fwc="AV" type="function">1</ValvePos></Component>
 	<Component name="SolenoidValve3"><Type ro="1" sid="SV">SolenoidValve</Type><ValvePos sid="A" fwc="AV">0</ValvePos></Component>
-	<Component name="Cap Heater1"><Type ro="1" sid="HZ">HeatedZone</Type><TrapRate sid="R" fwc="TB">0</TrapRate><ErrorCode ro="1">0</ErrorCode><TargetTemp sid="S" fwc="ZT" type="function">150</TargetTemp><CurrentTemp ro="1" sid="T">120</CurrentTemp><HeaterOn sid="O" fwc="ZO">1</HeaterOn><Calibrate ro="1" type="temp" cfwc="ZC"><Offset sid="F" fwc="ZF">0.00</Offset><Scale sid="V" fwc="ZV">1.00</Scale></Calibrate></Component>
+	<Component name="Cap Heater1">
+		<Type ro="1" sid="HZ">HeatedZone</Type>
+		<TrapRate sid="R" fwc="TB">0</TrapRate>
+		<ErrorCode ro="1">0</ErrorCode>
+		<TargetTemp sid="S" fwc="ZT" type="function">150</TargetTemp>
+		<CurrentTemp ro="1" sid="T">120</CurrentTemp>
+		<HeaterOn sid="O" fwc="ZO">1</HeaterOn>
+		<Calibrate ro="1" type="temp" cfwc="ZC">
+			<Offset sid="F" fwc="ZF">0.00</Offset>
+			<Scale sid="V" fwc="ZV">1.00</Scale>
+		</Calibrate>
+		</Component>
 	<Component name="Heated Valve2"><Type ro="1" sid="HZ">HeatedZone</Type><TrapRate sid="R" fwc="TB">0</TrapRate><ErrorCode ro="1">0</ErrorCode><TargetTemp sid="S" fwc="ZT" type="function">160</TargetTemp><CurrentTemp ro="1" sid="T">120</CurrentTemp><HeaterOn sid="O" fwc="ZO">1</HeaterOn><Calibrate ro="1" type="temp" cfwc="ZC"><Offset sid="F" fwc="ZF">0.00</Offset><Scale sid="V" fwc="ZV">1.00</Scale></Calibrate></Component>
 	<Component name="Tube Oven3"><Type ro="1" sid="HZ">HeatedZone</Type><TrapRate sid="R" fwc="TB">0</TrapRate><ErrorCode ro="1">0</ErrorCode><TargetTemp sid="S" fwc="ZT">0</TargetTemp><CurrentTemp ro="1" sid="T">0</CurrentTemp><HeaterOn sid="O" fwc="ZO">0</HeaterOn><Calibrate ro="1" type="temp" cfwc="ZC"><Offset sid="F" fwc="ZF">0.00</Offset><Scale sid="V" fwc="ZV">1.00</Scale></Calibrate></Component>
 	<Component name="TransferLine4"><Type ro="1" sid="HZ">HeatedZone</Type><TrapRate sid="R" fwc="TB">0</TrapRate><ErrorCode ro="1">0</ErrorCode><TargetTemp sid="S" fwc="ZT" type="function">140</TargetTemp><CurrentTemp ro="1" sid="T">120</CurrentTemp><HeaterOn sid="O" fwc="ZO">1</HeaterOn><Calibrate ro="1" type="temp" cfwc="ZC"><Offset sid="F" fwc="ZF">0.00</Offset><Scale sid="V" fwc="ZV">1.00</Scale></Calibrate></Component>
