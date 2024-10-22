@@ -38,35 +38,34 @@ static inline void trim(std::string &s)
     rtrim(s);
 }
 
-bool stringToFloat(const std::string &str, float *f)
+float stringToFloat(const pugi::xml_node &node)
 {
+    std::string value = node == nullptr ? "0" : node.text().get();
+
     char *endPtr = nullptr;
-    std::string trimmed = str;
+    std::string trimmed = value;
     trim(trimmed);
+
     float result = (float)std::strtod(trimmed.c_str(), &endPtr);
     if (*endPtr != '\0')
-    {
         printf("Error converting a string to a float \"%s\"", trimmed.c_str());
-        return false;
-    }
 
-    *f = result;
-    return true;
+    return result;
 }
 
-bool stringToLong(const std::string &str, long *l)
+int stringToInt(const pugi::xml_node &node)
 {
+    std::string value = node == nullptr ? "0" : node.text().get();
+
     char *endPtr = nullptr;
-    std::string trimmed = str;
+    std::string trimmed = value;
     trim(trimmed);
+
     long result = std::strtol(trimmed.c_str(), &endPtr, 10);
     if (*endPtr != '\0')
-    {
         printf("Error converting a string to an integer \"%s\"", trimmed.c_str());
-        return false;
-    }
-    *l = result;
-    return true;
+
+    return result;
 }
 
 
@@ -153,21 +152,16 @@ int main(int argc, char **argv)
                         std::string nodetype = it->child("Type") == nullptr ? "Unknown" : it->child("Type").text().get();
                         if (nodetype.compare("SolenoidValve") == 0)
                         {
-                            std::string valvepos = it->child("ValvePos") == nullptr ? "0" : it->child("ValvePos").text().get();
-                            long pos = 0;
-                            stringToLong(valvepos, &pos);
+                            int valvepos = stringToInt(it->child("ValvePos"));
 
-                            printf("Valve %s set to %d\n", compname.c_str(), (int)pos);
+                            printf("Valve %s set to %d\n", compname.c_str(), valvepos);
                         }
                         else if (nodetype.compare("HeatedZone") == 0)
                         {
-                            std::string targettemp = it->child("TargetTemp") == nullptr ? "0" : it->child("TargetTemp").text().get();
-                            std::string heateron = it->child("TargetTemp") == nullptr ? "0" : it->child("TargetTemp").text().get();
-                            float temp = 0.0f; long onoff = 0;
-                            stringToFloat(targettemp, &temp);
-                            stringToLong(heateron, &onoff);
+                            float temp = stringToFloat(it->child("TargetTemp"));
+                            int onoff = stringToInt(it->child("HeaterOn"));
 
-                            printf("Heater %s set to  %3.2f (%s)\n", compname.c_str(), temp, onoff == 0 ? "off" : "on");
+                            printf("Heater %s set to %3.2f (%s)\n", compname.c_str(), temp, onoff == 0 ? "off" : "on");
                         }
                     }
                 }
