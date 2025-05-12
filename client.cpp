@@ -7,7 +7,7 @@
 #include <arpa/inet.h>
 
 #define MAX_DATA_SIZE   8192
-#define NETWORK_PORT    23450
+#define NETWORK_PORT    8000
 
 const char *server_address = "127.0.0.1"; 
 
@@ -64,6 +64,14 @@ int main(int argc, char **argv)
         char *buffer = (char *)malloc(filesize);
         if (buffer)
         {
+            char content[128];
+            memset(content, 0, sizeof(content));
+            sprintf(content, "Content-Length: %d", filesize);
+
+            int contentlen = strlen(content);
+            printf("sending %s\n", content);
+            send(clientSocket, content, contentlen + 1, 0); // +1 to send trailing 0
+
             int bytesread = fread(buffer, 1, filesize, sendfile);
             printf("sending %d bytes from file %s\n", bytesread, filename);
 
