@@ -9,7 +9,7 @@
 #define MAX_DATA_SIZE   8192
 #define NETWORK_PORT    8000
 
-const char *server_address = "127.0.0.1"; 
+const char *server_address = "10.100.16.220"; 
 
 int main(int argc, char **argv)
 {

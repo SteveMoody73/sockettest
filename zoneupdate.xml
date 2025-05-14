@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<xml>
+	<Instrument name="TC30">
+		<Device type="Heater" position="1" ref="heater1">
+			<Zones>
+				<Zone id="1" active="true" name="block1">
+					<Data>
+						<Target>150</Target>
+						<HeaterEnabled>1</HeaterEnabled>
+					</Data>
+				</Zone>
+				<Zone id="2" active="true" name="block2">
+					<Data>
+						<Target>150</Target>
+						<HeaterEnabled>1</HeaterEnabled>
+					</Data>
+				</Zone>
+				<Zone id="3" active="true" name="block3">
+					<Data>
+						<Target>150</Target>
+						<HeaterEnabled>1</HeaterEnabled>
+					</Data>
+				</Zone>
+			</Zones>
+		</Device>
+	</Instrument>
+</xml>
